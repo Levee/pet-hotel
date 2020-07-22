@@ -38,5 +38,9 @@ namespace pet_hotel
         
         [Required]
         public string name { get; set; }
+
+        public PetOwner ownedBy { get; set; }
+
+        public int ownedByid { get; set; }
     }
 }

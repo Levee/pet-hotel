@@ -19,6 +19,35 @@ namespace pet_hotel.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public IEnumerable<Pet> GetPets() {
+            return _context.pets.Include(p => p.ownedBy).ToList();
+        }
+
+        [HttpPost]
+        public IActionResult NewPet([FromBody] Pet pet) {
+            PetOwner owner = _context.petOwners.SingleOrDefault(p => p.id == pet.ownedByid);
+            if (owner == null) {
+                return BadRequest();
+            }
+            
+            _context.Add(pet);
+            _context.SaveChanges();
+            return Ok(pet);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult PutDown(int id) {
+            Pet pet = _context.pets.SingleOrDefault(pet => pet.id == id);
+            if (pet == null) {
+                return NotFound(
+                    new { error = $"Error. We couldn't find your pet with id {id}. We can't put it down" }
+                );
+            }
+            _context.pets.Remove(pet);
+            _context.SaveChanges();
+            return NoContent();
+        }
         // [HttpGet]
         // [Route("test")]
         // public IEnumerable<Pet> GetPets() {
