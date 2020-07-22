@@ -35,10 +35,10 @@
     "extends": "react-app"
   },
   "jest": {
-		"transformIgnorePatterns": [
-			"node_modules/?!(react-native|native-base)"
-		]
-	},
+    "transformIgnorePatterns": [
+      "node_modules/?!(react-native|native-base)"
+    ]
+  },
   "scripts": {
     "start": "rimraf ./build && react-scripts start",
     "build": "react-scripts build",
