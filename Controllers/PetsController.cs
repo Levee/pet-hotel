@@ -20,14 +20,14 @@ namespace pet_hotel.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Pet> GetPets() {
-            return _context.pets.Include(p => p.ownedBy).ToList();
+        public List<Pet> GetPets() {
+            return _context.pets.Include(p => p.petOwner).ToList();
         }
 
         [HttpPost]
         public IActionResult NewPet([FromBody] Pet pet) {
-            PetOwner owner = _context.petOwners.SingleOrDefault(p => p.id == pet.ownedByid);
-            if (owner == null) {
+            PetOwner petOwner = _context.petOwners.SingleOrDefault(p => p.id == pet.petOwnerid);
+            if (petOwner == null) {
                 return BadRequest();
             }
             
@@ -48,6 +48,7 @@ namespace pet_hotel.Controllers
             _context.SaveChanges();
             return NoContent();
         }
+
         // [HttpGet]
         // [Route("test")]
         // public IEnumerable<Pet> GetPets() {
