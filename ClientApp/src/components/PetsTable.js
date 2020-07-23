@@ -48,10 +48,10 @@ class PetsTable extends Component {
                         <td>{pet.petOwner.name}</td>
                         <td>
                            {pet.checkedInAt
-                              ? <button onClick={() => this.checkOut(pet.id)} className='btn btn-sm btn-info ml-1 mr-1'>check out</button>
-                              : <button onClick={() => this.checkIn(pet.id)} className='btn btn-sm btn-info ml-1 mr-1'>check in</button>
+                              ? <button onClick={() => this.checkOut(pet.id)} className='btn btn-sm btn-info ml-1 mr-1'>Check Out</button>
+                              : <button onClick={() => this.checkIn(pet.id)} className='btn btn-sm btn-info ml-1 mr-1'>Check In</button>
                            }
-                           <button onClick={() => this.delete(pet.id)} className='btn btn-sm btn-danger'>del</button>
+                           <button onClick={() => this.delete(pet.id)} className='btn btn-sm btn-danger'>X</button>
                         </td>
                      </tr>
                   )}

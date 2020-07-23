@@ -10,9 +10,11 @@ export default class App extends Component {
 
   render () {
     return (
-      <Layout>
+      <div className = 'App'>
+      <Layout className = 'App'>
         <Route exact path='/' component={Home} />
       </Layout>
+      </div>
     );
   }
 }

@@ -42,5 +42,15 @@ namespace pet_hotel
         public PetOwner petOwner { get; set; }
 
         public int petOwnerid { get; set; }
+        
+        public Nullable<DateTime> checkedInAt { get; set; }
+
+        public void checkIn() {
+            checkedInAt = DateTime.Now;
+        }
+
+        public void checkOut() {
+            checkedInAt = null;
+        }
     }
 }

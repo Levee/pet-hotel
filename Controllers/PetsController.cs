@@ -33,7 +33,7 @@ namespace pet_hotel.Controllers
             
             _context.Add(pet);
             _context.SaveChanges();
-            return Ok(pet);
+            return CreatedAtAction(nameof(NewPet), new {id = pet.id}, pet);
         }
 
         [HttpDelete("{id}")]
@@ -48,29 +48,42 @@ namespace pet_hotel.Controllers
             _context.SaveChanges();
             return NoContent();
         }
+        
+        [HttpPut("{id}")]
+        public IActionResult RebirthPet(int id, [FromBody] Pet pet){
+            if(id != pet.id){
+                return BadRequest(
+                    new {error = $"pet id {id} must match route id"}
+                );
+            }
+            if(!_context.pets.Any(p => p.id == id)){
+                return NotFound(
+                    new {error = $"pet id {id} not found"}
+                );
+            }
+            _context.Update(pet);
+            _context.SaveChanges();
+            return Ok(pet);
+        }
 
-        // [HttpGet]
-        // [Route("test")]
-        // public IEnumerable<Pet> GetPets() {
-        //     PetOwner blaine = new PetOwner{
-        //         name = "Blaine"
-        //     };
+        [HttpPut("{id}/checkin")]
+        public IActionResult CheckIn(int id) {            
+            Pet pet = _context.pets.SingleOrDefault(p => p.id == id);
+            if (pet == null) return NotFound();
+            pet.checkIn();
+            _context.Update(pet);
+            _context.SaveChanges();
+            return Ok(pet);
+        }
 
-        //     Pet newPet1 = new Pet {
-        //         name = "Big Dog",
-        //         petOwner = blaine,
-        //         color = PetColorType.Black,
-        //         breed = PetBreedType.Poodle,
-        //     };
-
-        //     Pet newPet2 = new Pet {
-        //         name = "Little Dog",
-        //         petOwner = blaine,
-        //         color = PetColorType.Golden,
-        //         breed = PetBreedType.Labrador,
-        //     };
-
-        //     return new List<Pet>{ newPet1, newPet2};
-        // }
+        [HttpPut("{id}/checkout")]
+        public IActionResult CheckOut(int id) {            
+            Pet pet = _context.pets.SingleOrDefault(p => p.id == id);
+            if (pet == null) return NotFound();
+            pet.checkOut();
+            _context.Update(pet);
+            _context.SaveChanges();
+            return Ok(pet);
+        }
     }
 }

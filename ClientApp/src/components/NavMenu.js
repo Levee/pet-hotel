@@ -25,6 +25,7 @@ export class NavMenu extends Component {
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
           <Container>
             <NavbarBrand tag={Link} to="/">Pet Hotel</NavbarBrand>
+            <img src='https://rule34.xxx/images/topb.png' border="0" alt="9"/>
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse 
               className="d-sm-inline-flex flex-sm-row-reverse" 

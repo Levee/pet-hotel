@@ -70,7 +70,7 @@ class PetOwnersTable extends Component {
                                 <td>{petOwner.name}</td>
                                 <td>{petOwner.emailAddress}</td>
                                 <td>{petOwner.petCount}</td>
-                                <td><button onClick={() => this.deletePetOwner(petOwner.id)} className='btn btn-sm btn-danger'>Delete</button></td>
+                                <td><button onClick={() => this.deletePetOwner(petOwner.id)} className='btn btn-sm btn-danger'>Execute</button></td>
                             </tr>
                         )}
                     </tbody>

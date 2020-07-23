@@ -42,7 +42,7 @@ namespace pet_hotel.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult PutDown(int id) {
+        public IActionResult Execute(int id) {
             PetOwner owner = _context.petOwners.SingleOrDefault(owner => owner.id == id);
             if (owner == null) {
                 return NotFound(
@@ -52,6 +52,23 @@ namespace pet_hotel.Controllers
             _context.petOwners.Remove(owner);
             _context.SaveChanges();
             return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult RebirthPetOwner(int id, [FromBody] PetOwner petOwner){
+            if(id != petOwner.id){
+                return BadRequest(
+                    new {error = $"petOwner id {id} must match route id"}
+                );
+            }
+            if(!_context.petOwners.Any(p => p.id == id)){
+                return NotFound(
+                    new {error = $"petOwner id {id} not found"}
+                );
+            }
+            _context.Update(petOwner);
+            _context.SaveChanges();
+            return Ok(petOwner);
         }
     }
 }
