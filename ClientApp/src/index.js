@@ -6,7 +6,7 @@ import App from './App';
 // import registerServiceWorker from './registerServiceWorker';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
-import { petsReducer, petOwnersReducer } from './redux/reducers.js';
+import { petsReducer, petOwnersReducer, transactionsReducer } from './redux/reducers.js';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
@@ -16,7 +16,8 @@ const rootElement = document.getElementById('root');
 const reduxStore = createStore(
   combineReducers({
     petOwners: petOwnersReducer,
-    pets: petsReducer
+    pets: petsReducer,
+    transactions: transactionsReducer
   })
 );
 window.store = reduxStore;

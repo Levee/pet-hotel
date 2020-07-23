@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import Swal from 'sweetalert2';
 
 class PetOwnersTable extends Component {
     state = {
@@ -110,12 +111,29 @@ class PetOwnersTable extends Component {
     }
 
     deletePetOwner = async (id) => {
-        await axios.delete(`api/petOwners/${id}`)
-        this.props.fetchPetOwners();
-        this.setState({
-            errors: [],
-            successMessage: 'Deleted petOwner successfully'
-        })
+        Swal.fire({
+            title: 'Warning!',
+            text: "You are about to execute this pet owner. Continue?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#96c882',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Execute!'
+        }).then((result) => {
+            if (result.value) {
+                axios.delete(`api/petOwners/${id}`);
+                this.props.fetchPetOwners();
+                this.setState({
+                    errors: [],
+                    successMessage: 'Successfully executed pet owner!'
+                });
+                Swal.fire(
+                'Executed!',
+                'Successfully executed pet owner.',
+                'success'
+                );
+            }
+        });
     }
 
     submitPetOwner = async () => {

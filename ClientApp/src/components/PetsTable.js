@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import Swal from 'sweetalert2';
 
 class PetsTable extends Component {
    state = {
@@ -88,6 +89,7 @@ class PetsTable extends Component {
    editPet = async () => {
       try{
          await axios.put(`api/pets/${this.state.updateId}`, this.state.newPet);
+         await axios.post(`api/transactions/`, {title: `edited pet ${this.state.newPet.name}` });
          this.fetchData();
          this.setState({
             errors: [],
@@ -114,6 +116,7 @@ class PetsTable extends Component {
    addPet = async () => {
       try {
          await axios.post('api/pets/', this.state.newPet);
+         await axios.post(`api/transactions/`, {title: `added pet ${this.state.newPet.name}` });
          this.fetchData();
          this.setState({
             errors: [],
@@ -213,22 +216,37 @@ class PetsTable extends Component {
       );
    }
 
-   delete = async (id) => {
-      try {
-         await axios.delete(`api/pets/${id}`);
-         this.fetchData();
-         this.setState({
-            errors: [],
-            successMessage: `Successfully removed pet`
-         });
-      } catch (err) {
-         this.setState({ errors: { 'error': [err.message] }, successMessage: null })
-      }
+   delete = (id) => {
+      Swal.fire({
+         title: 'Warning!',
+         text: "You are about to put down this pet. Continue?",
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonColor: '#96c882',
+         cancelButtonColor: '#d33',
+         confirmButtonText: 'Put Down!'
+      }).then(async (result) => {
+         if (result.value) {
+            await axios.delete(`api/pets/${id}`);
+            await axios.post(`api/transactions/`, {title: `put down a pet: ${this.state.newPet.name}` });
+            this.fetchData();
+            this.setState({
+               errors: [],
+               successMessage: `Successfully removed pet`
+            });
+            Swal.fire(
+               'Bye Bye Doggy',
+               'Successfully put down pet.',
+               'success'
+            );
+         }
+      });
    }
 
    checkIn = async (id) => {
       try {
          await axios.put(`api/pets/${id}/checkin`);
+         await axios.post(`api/transactions/`, {title: `checked in pet ${this.state.newPet.name}` });
          this.setState({
             errors: [],
             successMessage: 'Successfully checked in!'
@@ -242,6 +260,7 @@ class PetsTable extends Component {
    checkOut = async (id) => {
       try {
          await axios.put(`api/pets/${id}/checkout`);
+         await axios.post(`api/transactions/`, {title: `checked out pet ${this.state.newPet.name}` });
          this.setState({
             errors: [],
             successMessage: 'Successfully checked out!'
