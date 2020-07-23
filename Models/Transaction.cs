@@ -11,20 +11,13 @@ namespace pet_hotel
         public int id { get; set; }
 
         [Required]
-        public string name { get; set; }
-
-        public string trans { get; set; }
-
-        public int transact { get; set; }
+        public string title { get; set; }
         
-        public Nullable<int> checkedInAt { get; set; }
+        [Required]
+        public DateTime timestamp  { get; set; }
 
-        public void checkIn() {
-            checkedInAt = 1;
-        }
-
-        public void checkOut() {
-            checkedInAt = null;
+        public void takeAction(){
+            timestamp = DateTime.Now;
         }
     }
 }

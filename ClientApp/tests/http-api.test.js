@@ -114,3 +114,22 @@ test('Delete the petOwner via HTTP DELETE', async () => {
     const response = await axios.delete(`${SERVER_URL}/api/petowners/${petOwner.id}`);
     expect(response.status).toBe(204);
 });
+
+/*********************Transactions**********************/
+
+test('GET the pet transactions', async () => {
+    const response = await axios.get(`${SERVER_URL}/api/transactions`);
+    expect(response.status).toBe(200);
+});
+
+test('POST to pet hotel transaction', async () => {
+       // nothing to do yet'test@example.com'
+       const newTransaction = {title: 'this is a test'};
+       const response = await axios.post(`${SERVER_URL}/api/transactions`, newTransaction);
+       transaction = response.data;
+       expect(response.status).toBe(201);
+       expect(typeof(response.data)).toBe(typeof({}));
+       expect(typeof(response.data.id)).toBe(typeof(0));
+       console.log(`Pet Owner created with id ${transaction.id}`);
+       // console.log(response.data);
+})
