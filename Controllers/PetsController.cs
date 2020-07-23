@@ -20,8 +20,8 @@ namespace pet_hotel.Controllers
         }
 
         [HttpGet]
-        public List<Pet> GetPets() {
-            return _context.pets.Include(p => p.petOwner).ToList();
+        public IActionResult GetPets() {
+            return Ok(_context.pets.Include(p => p.petOwner).ToList().OrderBy(p => p.id));
         }
 
         [HttpPost]

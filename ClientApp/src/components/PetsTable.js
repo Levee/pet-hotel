@@ -13,11 +13,34 @@ class PetsTable extends Component {
          breed: '',
          color: '',
          petOwnerid: '',
-      }
+      },
+      updateId: '',
    }
 
    componentDidMount = () => {
       this.fetchData();
+   }
+
+   update = (pet) => {
+
+      this.setState({
+         newPet: pet,
+         updateId: pet.id
+      })
+
+   }
+   cancelPet = () => {
+      this.setState({
+         errors: [],
+         successMessage: null,
+         newPet: {
+            name: '',
+            breed: '',
+            color: '',
+            petOwnerid: '',
+         },
+         updateId: '',
+      })
    }
 
    renderTable = () => {
@@ -51,7 +74,8 @@ class PetsTable extends Component {
                               ? <button onClick={() => this.checkOut(pet.id)} className='btn btn-sm btn-info ml-1 mr-1'>Check Out</button>
                               : <button onClick={() => this.checkIn(pet.id)} className='btn btn-sm btn-info ml-1 mr-1'>Check In</button>
                            }
-                           <button onClick={() => this.delete(pet.id)} className='btn btn-sm btn-danger'>X</button>
+                           <button onClick={()=>this.update(pet)} className='btn btn-sm btn-success ml-1 mr-1'>Edit</button>
+                           <button onClick={() => this.delete(pet.id)} className='btn btn-sm btn-danger ml-1 mr-1'>X</button>
                         </td>
                      </tr>
                   )}
@@ -60,6 +84,32 @@ class PetsTable extends Component {
          </div>
       );
    }
+
+   editPet = async () => {
+      try{
+         await axios.put(`api/pets/${this.state.updateId}`, this.state.newPet);
+         this.fetchData();
+         this.setState({
+            errors: [],
+            successMessage: 'Successfully Rebirthed Pet',
+            newPet: {
+               name: '',
+               breed: '',
+               color: '',
+               petOwnerid: '',
+            },
+            updateId: '',
+            
+         });
+      } catch (err) {
+         console.log(err);
+         // if (err.response.status === 400) {
+         //    // validation errors
+         //    this.setState({ errors: err.response.data.errors, successMessage: null });
+         // }
+      }
+   }
+
 
    addPet = async () => {
       try {
@@ -155,7 +205,8 @@ class PetsTable extends Component {
                   <option>Pet Owner</option>
                   {this.props.petOwners.map(petOwner => <option value={petOwner.id} key={`select-petOwner=${petOwner.id}`}>{petOwner.name}</option>)}
                </select>
-               <button className={"form-control btn btn-primary col-md-2"} onClick={this.addPet}>Add Pet</button>
+               {this.state.updateId ? <><button className={"form-control btn btn-warning col-md-2 mr-2"} onClick={this.editPet}>Rebirth Pet</button> <button className={"form-control btn btn-primary col-md-1"} onClick={this.cancelPet}>Cancel</button></>:
+               <button className={"form-control btn btn-primary col-md-2"} onClick={this.addPet}>Add Pet</button>}
             </div>
             {contents}
          </>

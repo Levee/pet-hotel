@@ -1,4 +1,8 @@
 /* Provide sufficient contrast against white background */
+html {
+  background-color: rgb(150, 200, 130);
+}
+
 .App{
   background-color: rgb(150, 200, 130);
   color:navy;

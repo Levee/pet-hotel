@@ -10,7 +10,8 @@ class PetOwnersTable extends Component {
         newPetOwner: {
             name: '',
             emailAddress: '',
-        }
+        },
+        isEditing: false
     }
 
     componentDidMount = async () => {
@@ -20,8 +21,8 @@ class PetOwnersTable extends Component {
 
     renderMessages = () => {
         /*
-           Look into the local state to see if we have any errors
-           that are derived from the backend validation, and display them
+            Look into the local state to see if we have any errors
+            that are derived from the backend validation, and display them
         */
         const errors = [];
         if (this.state.errors) {
@@ -120,7 +121,7 @@ class PetOwnersTable extends Component {
     submitPetOwner = async () => {
         try {
             await axios.post('api/petOwners', this.state.newPetOwner);
-            this.setState({ newPetOwner: { ...this.state.newPetOwner, name: '' } });
+            this.setState({ newPetOwner: { ...this.state.newPetOwner, name: '', emailAddress: '' } });
             this.props.fetchPetOwners();
             this.setState({
                 errors: [],
