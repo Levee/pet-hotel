@@ -1,4 +1,10 @@
-﻿a.navbar-brand {
+﻿.navbar-expand-sm {
+  position: fixed;
+  width: 100%;
+  background-color: #96c882;
+}
+
+a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;

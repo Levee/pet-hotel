@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import moment from 'moment'
 
   class Activity extends Component {
-  componentWillMount(){
+  componentDidMount(){
     this.fetchTransactions()
   }
   fetchTransactions = async () => {
@@ -27,7 +27,7 @@ import moment from 'moment'
           </thead>
           <tbody>
 
-          {this.props.transactions !== undefined ? this.props.transactions.map(tr=><tr><td>{tr.title}</td><td>{moment(tr.timestamp).format('MMMM DD YYYY LTS')}</td></tr>): <tr>Nothing to see here</tr>}
+          {this.props.transactions !== undefined ? this.props.transactions.map((tr, i)=><tr key={i}><td>{tr.title}</td><td>{moment(tr.timestamp).format('MMMM DD YYYY LTS')}</td></tr>): <tr>Nothing to see here</tr>}
           </tbody>
         </table>
       </div>

@@ -16,8 +16,7 @@ class Home extends Component {
   render() {
     return (
       <>
-      <br></br>
-        <img style={{display: 'inline'}} src="https://rule34.xxx/counter/6.gif" border="0" alt="6"/>
+        <img style={{display: 'inline'}} src="https://rule34.xxx/counter/6.gif" border="0" alt="6" className='mt-5'/>
         <h1 style={{display: 'inline'}}>Welcome To The Pet Hotel!</h1>
         <img style={{display: 'inline'}} src="https://rule34.xxx/counter/9.gif" border="0" alt="9"/>
         <p>At our Pet Hotel, we take care of your pet while you are away. </p>

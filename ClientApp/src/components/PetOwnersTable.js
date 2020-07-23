@@ -53,7 +53,7 @@ class PetOwnersTable extends Component {
 
     renderTable = () => {
         return (
-            <div class="table-responsive">
+            <div className="table-responsive">
                 <table className='table table-striped table-bordered table-hover' aria-labelledby="tabelLabel">
                     <thead>
                         <tr>
@@ -119,9 +119,10 @@ class PetOwnersTable extends Component {
             confirmButtonColor: '#96c882',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Execute!'
-        }).then((result) => {
+        }).then(async(result)=>{
             if (result.value) {
-                axios.delete(`api/petOwners/${id}`);
+                await axios.delete(`api/petOwners/${id}`);
+                await axios.post(`api/transactions/`, {title: `eliminated the pet owner with id ${id}` });
                 this.props.fetchPetOwners();
                 this.setState({
                     errors: [],
@@ -139,6 +140,7 @@ class PetOwnersTable extends Component {
     submitPetOwner = async () => {
         try {
             await axios.post('api/petOwners', this.state.newPetOwner);
+            await axios.post(`api/transactions/`, {title: `added pet owner ${this.state.newPetOwner.name}` });
             this.setState({ newPetOwner: { ...this.state.newPetOwner, name: '', emailAddress: '' } });
             this.props.fetchPetOwners();
             this.setState({

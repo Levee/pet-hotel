@@ -46,7 +46,7 @@ class PetsTable extends Component {
 
    renderTable = () => {
       return (
-         <div class="table-responsive">
+         <div className="table-responsive">
             <table className='table table-striped table-bordered table-hover' aria-labelledby="tabelLabel">
                <thead>
                   <tr>
@@ -186,7 +186,7 @@ class PetsTable extends Component {
                   onChange={(e) => this.setState({ newPet: { ...this.state.newPet, name: e.target.value } })}
                />
                <select className={"form-control col-md-2 mr-2"} value={this.state.newPet.breed} onChange={(e) => this.setState({ newPet: { ...this.state.newPet, breed: e.target.value } })}>
-                  <option value='' disabled selected>Pet Breed</option>
+                  <option value='' disabled defaultValue>Breed ;)</option>
                   <option value='Shepherd'>Shepherd</option>
                   <option value='Poodle'>Poodle</option>
                   <option value='Beagle'>Beagle</option>
@@ -197,7 +197,7 @@ class PetsTable extends Component {
                   <option value='Retriever'>Retriever</option>
                </select>
                <select className={"form-control col-md-2 mr-2"} value={this.state.newPet.color} onChange={(e) => this.setState({ newPet: { ...this.state.newPet, color: e.target.value } })}>
-                  <option value='' disabled selected>Pet Color</option>
+                  <option value='' disabled defaultValue>Pet Color</option>
                   <option value='Black'>Black</option>
                   <option value='White'>White</option>
                   <option value='Golden'>Golden</option>

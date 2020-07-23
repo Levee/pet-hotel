@@ -23,7 +23,7 @@ color: navy
 }
 tbody tr:nth-child(odd){
   
-background-color: navy6;
+background-color: navy;
   color:#009398;
 }
 .btn-primary {

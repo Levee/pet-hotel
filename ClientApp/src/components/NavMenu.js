@@ -24,7 +24,7 @@ export class NavMenu extends Component {
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3 p-0" light>
           <Container>
-            <NavbarBrand className='p-0' tag={Link} to="/" ><h3 style={{'color':'navy', 'fontWeight':'bolder', 'font-family':'Times New Roman'}}>Pet Hotel #34</h3></NavbarBrand>
+            <NavbarBrand className='p-0' tag={Link} to="/" ><h3 style={{'color':'navy', 'fontWeight':'bolder', 'fontFamily':'Times New Roman'}}>Pet Hotel #34</h3></NavbarBrand>
             <img src='https://rule34.xxx/images/topb.png' border="0" alt="9"/>
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse 
@@ -35,7 +35,7 @@ export class NavMenu extends Component {
                   <NavLink
                     tag={Link}
                     to="/activity"
-                    style={{'color':'navy', 'fontWeight':'bolder', 'font-family':'Times New Roman'}}
+                    style={{'color':'navy', 'fontWeight':'bolder', 'fontFamily':'Times New Roman'}}
                   >
                     Activity
                   </NavLink>
@@ -44,7 +44,7 @@ export class NavMenu extends Component {
                   <NavLink
                     tag={Link}
                     to="/"
-                    style={{'color':'navy', 'fontWeight':'bolder', 'font-family':'Times New Roman'}}
+                    style={{'color':'navy', 'fontWeight':'bolder', 'fontFamily':'Times New Roman'}}
                   >
                     Home
                   </NavLink>
