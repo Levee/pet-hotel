@@ -3,28 +3,29 @@ html {
   background-color: #96c882;
 }
 
-.App{
+.App {
   background-color: #96c882;
-  color:navy;
+  color: navy;
 }
 a {
   color: #0366d6;
 }
 
 code {
-  color: #E01A76;
+  color: #e01a76;
 }
-.table td, .table th, .table tbody{
-  border:3px solid navy;
+.table td,
+.table th,
+.table tbody {
+  border: 3px solid navy;
 }
-tbody tr:nth-child(even){
-background-color: #009398;
-color: navy
+tbody tr:nth-child(even) {
+  background-color: #009398;
+  color: navy;
 }
-tbody tr:nth-child(odd){
-  
-background-color: navy;
-  color:#009398;
+tbody tr:nth-child(odd) {
+  background-color: navy;
+  color: #009398;
 }
 .btn-primary {
   color: #fff;

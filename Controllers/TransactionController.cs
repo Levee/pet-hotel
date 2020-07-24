@@ -12,28 +12,39 @@ namespace pet_hotel.Controllers
     public class TransactionsController : ControllerBase
     {
         private readonly ApplicationContext _context;
-        public TransactionsController(ApplicationContext context) {
+        public TransactionsController(ApplicationContext context)
+        {
             _context = context;
         }
 
         [HttpGet]
-        public IActionResult GetTransactions() {
-            return Ok(_context.transactions.ToList());
+        public IEnumerable<Transaction> GetTransactions()
+        {
+            return _context.transactions.Take(100).OrderByDescending(t => t.id);
+        }
+
+        [HttpGet("total")]
+        public int GetTotal()
+        {
+            return _context.transactions.Count();
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetTransaction(int id) {
+        public IActionResult GetTransaction(int id)
+        {
             Transaction transaction = _context.transactions.SingleOrDefault(o => o.id == id);
-            if (transaction == null) {
+            if (transaction == null)
+            {
                 return NotFound(
-                    new { error = $"Error, baker with id {id} not found!" }
+                    new { error = $"Error, transaction with id {id} not found!" }
                 );
             }
             return Ok(transaction);
         }
 
         [HttpPost]
-        public IActionResult NewTransaction([FromBody] Transaction transaction) {
+        public IActionResult NewTransaction([FromBody] Transaction transaction)
+        {
             transaction.takeAction();
             _context.Add(transaction); // add to our local database layer
             _context.SaveChanges(); // actually save to the database
