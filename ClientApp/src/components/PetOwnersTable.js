@@ -81,6 +81,7 @@ class PetOwnersTable extends Component {
                   <td>{petOwner.id}</td>
                   <td>
                     <input
+                      className="form-control col-12 mr-2"
                       value={this.state.editPetOwner.name}
                       onChange={(e) =>
                         this.setState({
@@ -94,7 +95,8 @@ class PetOwnersTable extends Component {
                   </td>
                   <td>
                     <input
-                      value={petOwner.emailAddress}
+                      className="form-control col-12 mr-2"
+                      value={this.state.editPetOwner.emailAddress}
                       onChange={(e) =>
                         this.setState({
                           editPetOwner: {
@@ -128,8 +130,7 @@ class PetOwnersTable extends Component {
                         this.setState({
                           editId: petOwner.id,
                           editPetOwner: {
-                            name: petOwner.name,
-                            emailAddress: petOwner.emailAddress,
+                            ...petOwner,
                           },
                         })
                       }
@@ -208,17 +209,17 @@ class PetOwnersTable extends Component {
   editPetOwner = async () => {
     try {
       await axios.put(
-        `api/petOwners/${this.state.updateId}`,
+        `api/petOwners/${this.state.editId}`,
         this.state.editPetOwner
       );
       await axios.post(`api/transactions/`, {
         title: `Edited owner ${this.state.newPetOwner.name}`,
       });
-      this.fetchData();
+      this.props.fetchPetOwners();
       this.setState({
         errors: [],
         successMessage: null,
-        loading: true,
+        editId: null,
         editPetOwner: {
           name: "",
           emailAddress: "",
