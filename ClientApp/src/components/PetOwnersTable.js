@@ -8,6 +8,11 @@ class PetOwnersTable extends Component {
     errors: [],
     successMessage: null,
     loading: true,
+    editId: null,
+    editPetOwner: {
+      name: "",
+      emailAddress: "",
+    },
     newPetOwner: {
       name: "",
       emailAddress: "",
@@ -52,10 +57,7 @@ class PetOwnersTable extends Component {
   renderTable = () => {
     return (
       <div className="table-responsive">
-        <table
-          className="table table-striped table-bordered table-hover"
-          aria-labelledby="tabelLabel"
-        >
+        <table className="table table-bordered" aria-labelledby="tabelLabel">
           <thead>
             <tr>
               <th>ID</th>
@@ -73,22 +75,78 @@ class PetOwnersTable extends Component {
                 </td>
               </tr>
             )}
-            {this.props.petOwners.map((petOwner) => (
-              <tr key={`petOwner-row-${petOwner.id}`}>
-                <td>{petOwner.id}</td>
-                <td>{petOwner.name}</td>
-                <td>{petOwner.emailAddress}</td>
-                <td>{petOwner.petCount}</td>
-                <td>
-                  <button
-                    onClick={() => this.deletePetOwner(petOwner.id)}
-                    className="btn btn-sm btn-danger"
-                  >
-                    Execute
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {this.props.petOwners.map((petOwner) =>
+              petOwner.id === this.state.editId ? (
+                <tr key={`petOwner-row-${petOwner.id}`}>
+                  <td>{petOwner.id}</td>
+                  <td>
+                    <input
+                      value={this.state.editPetOwner.name}
+                      onChange={(e) =>
+                        this.setState({
+                          editPetOwner: {
+                            ...this.state.editPetOwner,
+                            name: e.target.value,
+                          },
+                        })
+                      }
+                    />
+                  </td>
+                  <td>
+                    <input
+                      value={petOwner.emailAddress}
+                      onChange={(e) =>
+                        this.setState({
+                          editPetOwner: {
+                            ...this.state.editPetOwner,
+                            emailAddress: e.target.value,
+                          },
+                        })
+                      }
+                    />
+                  </td>
+
+                  <td>{petOwner.petCount}</td>
+                  <td>
+                    <button
+                      onClick={() => this.editPetOwner()}
+                      className="btn btn-sm btn-success mr-2"
+                    >
+                      Save
+                    </button>
+                  </td>
+                </tr>
+              ) : (
+                <tr key={`petOwner-row-${petOwner.id}`}>
+                  <td>{petOwner.id}</td>
+                  <td>{petOwner.name}</td>
+                  <td>{petOwner.emailAddress}</td>
+                  <td>{petOwner.petCount}</td>
+                  <td>
+                    <button
+                      onClick={() =>
+                        this.setState({
+                          editId: petOwner.id,
+                          editPetOwner: {
+                            name: petOwner.name,
+                            emailAddress: petOwner.emailAddress,
+                          },
+                        })
+                      }
+                      className="btn btn-sm btn-success mr-2"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => this.deletePetOwner(petOwner.id)}
+                      className="btn btn-sm btn-danger"
+                    >
+                      Execute
+                    </button>
+                  </td>
+                </tr>
+              )
+            )}
           </tbody>
         </table>
       </div>
@@ -110,7 +168,7 @@ class PetOwnersTable extends Component {
         {this.renderMessages()}
         <div className="form-group row ml-0">
           <input
-            placeholder="Pet Owner Name"
+            placeholder="Name"
             value={this.state.newPetOwner.name}
             onChange={(event) =>
               this.setState({
@@ -123,7 +181,7 @@ class PetOwnersTable extends Component {
             className={"form-control col-md-3 mr-2"}
           />
           <input
-            placeholder="Email Address"
+            placeholder="Email"
             value={this.state.newPetOwner.emailAddress}
             onChange={(event) =>
               this.setState({
@@ -147,18 +205,21 @@ class PetOwnersTable extends Component {
     );
   }
 
-  editPet = async () => {
+  editPetOwner = async () => {
     try {
-      await axios.put(`api/pets/${this.state.updateId}`, this.state.newPet);
+      await axios.put(
+        `api/petOwners/${this.state.updateId}`,
+        this.state.editPetOwner
+      );
       await axios.post(`api/transactions/`, {
-        title: `edited pet ${this.state.newPet.name}`,
+        title: `Edited owner ${this.state.newPetOwner.name}`,
       });
       this.fetchData();
       this.setState({
         errors: [],
         successMessage: null,
         loading: true,
-        newPetOwner: {
+        editPetOwner: {
           name: "",
           emailAddress: "",
         },
@@ -185,12 +246,12 @@ class PetOwnersTable extends Component {
       if (result.value) {
         await axios.delete(`api/petOwners/${id}`);
         await axios.post(`api/transactions/`, {
-          title: `eliminated the pet owner with id ${id}`,
+          title: `Executed pet owner with id ${id}`,
         });
         this.props.fetchPetOwners();
         this.setState({
           errors: [],
-          successMessage: "Successfully executed pet owner!",
+          successMessage: "Successfully executed pet owner.",
         });
         Swal.fire("Executed!", "Successfully executed pet owner.", "success");
       }
@@ -201,7 +262,7 @@ class PetOwnersTable extends Component {
     try {
       await axios.post("api/petOwners", this.state.newPetOwner);
       await axios.post(`api/transactions/`, {
-        title: `added pet owner ${this.state.newPetOwner.name}`,
+        title: `Added pet owner ${this.state.newPetOwner.name}`,
       });
       this.setState({
         newPetOwner: { ...this.state.newPetOwner, name: "", emailAddress: "" },

@@ -20,7 +20,7 @@ namespace pet_hotel.Controllers
         [HttpGet]
         public IEnumerable<Transaction> GetTransactions()
         {
-            return _context.transactions.Take(100).OrderByDescending(t => t.id);
+            return _context.transactions.OrderByDescending(t => t.id).Take(100);
         }
 
         [HttpGet("total")]

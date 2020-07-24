@@ -16,7 +16,7 @@ class Home extends Component {
     return (
       <div className="pt-5">
         <h1 style={{ display: "inline" }}>
-          Welcome To The Pet Hotel
+          Welcome To Pet Hotel
           <img
             style={{ display: "inline" }}
             src="https://rule34.xxx/counter/3.gif"

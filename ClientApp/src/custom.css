@@ -1,10 +1,10 @@
 /* Provide sufficient contrast against white background */
 html {
-  background-color: #96c882;
+  background-color: #aae5a3;
 }
 
 .App {
-  background-color: #96c882;
+  background-color: #aae5a3;
   color: navy;
 }
 a {
@@ -17,15 +17,15 @@ code {
 .table td,
 .table th,
 .table tbody {
-  border: 3px solid navy;
+  border: 3px solid #13133d;
 }
 tbody tr:nth-child(even) {
-  background-color: #009398;
-  color: navy;
+  background-color: #174b4d;
+  color: white;
 }
 tbody tr:nth-child(odd) {
-  background-color: navy;
-  color: #009398;
+  background-color: #13133d;
+  color: white;
 }
 .btn-primary {
   color: #fff;

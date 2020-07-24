@@ -15,6 +15,12 @@ class PetsTable extends Component {
       color: "",
       petOwnerid: "",
     },
+    editPet: {
+      name: "",
+      breed: "",
+      color: "",
+      petOwnerid: "",
+    },
     updateId: "",
   };
 
@@ -24,7 +30,7 @@ class PetsTable extends Component {
 
   update = (pet) => {
     this.setState({
-      newPet: pet,
+      editPet: pet,
       updateId: pet.id,
     });
   };
@@ -49,16 +55,13 @@ class PetsTable extends Component {
   renderTable = () => {
     return (
       <div className="table-responsive">
-        <table
-          className="table table-striped table-bordered table-hover"
-          aria-labelledby="tabelLabel"
-        >
+        <table className="table table-bordered" aria-labelledby="tabelLabel">
           <thead>
             <tr>
               <th>Name</th>
               <th>Breed</th>
               <th>Color</th>
-              <th>Checked In</th>
+              <th>Status</th>
               <th>Pet Owner</th>
               <th></th>
             </tr>
@@ -74,29 +77,29 @@ class PetsTable extends Component {
             {this.props.pets.map((pet) =>
               this.state.updateId === pet.id ? (
                 <tr>
-                  <td>
+                  <td className="p-2">
                     <input
-                      placeholder={"pet name"}
-                      className={"form-control col-12 mr-2"}
-                      value={this.state.newPet.name}
+                      placeholder="Name"
+                      className="form-control col-12 mr-2"
+                      value={this.state.editPet.name}
                       onChange={(e) =>
                         this.setState({
-                          newPet: {
-                            ...this.state.newPet,
+                          editPet: {
+                            ...this.state.editPet,
                             name: e.target.value,
                           },
                         })
                       }
                     />
                   </td>
-                  <td>
+                  <td className="p-2">
                     <select
-                      className={"form-control col-12 mr-2"}
-                      value={this.state.newPet.breed}
+                      className="form-control col-12 mr-2"
+                      value={this.state.editPet.breed}
                       onChange={(e) =>
                         this.setState({
-                          newPet: {
-                            ...this.state.newPet,
+                          editPet: {
+                            ...this.state.editPet,
                             breed: e.target.value,
                           },
                         })
@@ -113,22 +116,19 @@ class PetsTable extends Component {
                     </select>
                   </td>
 
-                  <td>
+                  <td className="p-2">
                     <select
-                      className={"col-12 mr-2"}
-                      value={this.state.newPet.color}
+                      className="form-control col-12 mr-2"
+                      value={this.state.editPet.color}
                       onChange={(e) =>
                         this.setState({
-                          newPet: {
-                            ...this.state.newPet,
+                          editPet: {
+                            ...this.state.editPet,
                             color: e.target.value,
                           },
                         })
                       }
                     >
-                      <option value="" disabled defaultValue>
-                        Pet Color
-                      </option>
                       <option value="Black">Black</option>
                       <option value="White">White</option>
                       <option value="Golden">Golden</option>
@@ -147,7 +147,7 @@ class PetsTable extends Component {
                       onClick={() => this.editPet()}
                       className="btn btn-sm btn-info ml-1 mr-1"
                     >
-                      Save Changes
+                      Save
                     </button>
                   </td>
                 </tr>
@@ -202,15 +202,15 @@ class PetsTable extends Component {
 
   editPet = async () => {
     try {
-      await axios.put(`api/pets/${this.state.updateId}`, this.state.newPet);
+      await axios.put(`api/pets/${this.state.updateId}`, this.state.editPet);
       await axios.post(`api/transactions/`, {
-        title: `edited pet ${this.state.newPet.name}`,
+        title: `Edited pet ${this.state.editPet.name}`,
       });
       this.fetchData();
       this.setState({
         errors: [],
-        successMessage: "Successfully Rebirthed Pet",
-        newPet: {
+        successMessage: "Successfully rebirthed pet!",
+        editPet: {
           name: "",
           breed: "",
           color: "",
@@ -231,12 +231,12 @@ class PetsTable extends Component {
     try {
       await axios.post("api/pets/", this.state.newPet);
       await axios.post(`api/transactions/`, {
-        title: `added pet ${this.state.newPet.name}`,
+        title: `Added pet ${this.state.newPet.name}`,
       });
       this.fetchData();
       this.setState({
         errors: [],
-        successMessage: "Successfully added pet!",
+        successMessage: `Successfully added ${this.state.newPet.name}`,
       });
     } catch (err) {
       console.log(err);
@@ -302,7 +302,7 @@ class PetsTable extends Component {
         {this.renderMessages()}
         <div className="form-group row ml-0 mr-0">
           <input
-            placeholder={"pet name"}
+            placeholder="Name"
             className={"form-control col-md-2 mr-2"}
             value={this.state.newPet.name}
             onChange={(e) =>
@@ -321,7 +321,7 @@ class PetsTable extends Component {
             }
           >
             <option value="" disabled defaultValue>
-              Breed ;)
+              Breed
             </option>
             <option value="Shepherd">Shepherd</option>
             <option value="Poodle">Poodle</option>
@@ -342,7 +342,7 @@ class PetsTable extends Component {
             }
           >
             <option value="" disabled defaultValue>
-              Pet Color
+              Coat
             </option>
             <option value="Black">Black</option>
             <option value="White">White</option>
@@ -362,7 +362,7 @@ class PetsTable extends Component {
               })
             }
           >
-            <option>Pet Owner</option>
+            <option>Owner</option>
             {this.props.petOwners.map((petOwner) => (
               <option
                 value={petOwner.id}
@@ -372,29 +372,12 @@ class PetsTable extends Component {
               </option>
             ))}
           </select>
-          {this.state.updateId ? (
-            <>
-              <button
-                className={"form-control btn btn-warning col-md-2 mr-2"}
-                onClick={this.editPet}
-              >
-                Rebirth Pet
-              </button>{" "}
-              <button
-                className={"form-control btn btn-primary col-md-1"}
-                onClick={this.cancelPet}
-              >
-                Cancel
-              </button>
-            </>
-          ) : (
-            <button
-              className={"form-control btn btn-primary col-md-2"}
-              onClick={this.addPet}
-            >
-              Add Pet
-            </button>
-          )}
+          <button
+            className={"form-control btn btn-primary col-md-2"}
+            onClick={this.addPet}
+          >
+            Add Pet
+          </button>
         </div>
         {contents}
       </>
@@ -419,7 +402,7 @@ class PetsTable extends Component {
         this.fetchData();
         this.setState({
           errors: [],
-          successMessage: `Successfully removed pet`,
+          successMessage: `Successfully put down ${this.state.newPet.name}`,
         });
         Swal.fire("Bye Bye Doggy", "Successfully put down pet.", "success");
       }
@@ -430,11 +413,11 @@ class PetsTable extends Component {
     try {
       await axios.put(`api/pets/${id}/checkin`);
       await axios.post(`api/transactions/`, {
-        title: `checked in pet ${this.state.newPet.name}`,
+        title: `Checked in pet ${this.state.newPet.name}`,
       });
       this.setState({
         errors: [],
-        successMessage: "Successfully checked in!",
+        successMessage: `Successfully checked in ${this.state.newPet.name}`,
       });
       this.fetchData();
     } catch (err) {
@@ -446,11 +429,11 @@ class PetsTable extends Component {
     try {
       await axios.put(`api/pets/${id}/checkout`);
       await axios.post(`api/transactions/`, {
-        title: `checked out pet ${this.state.newPet.name}`,
+        title: `Checked out pet ${this.state.newPet.name}`,
       });
       this.setState({
         errors: [],
-        successMessage: "Successfully checked out!",
+        successMessage: `Successfully checked out ${this.state.newPet.name}`,
       });
       this.fetchData();
     } catch (err) {
